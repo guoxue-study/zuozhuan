@@ -27,9 +27,7 @@ function split_sentence(text, max_len) {
 
 function normalize(text, idx) {
   if (text.startsWith('#')) return { text: text };
-  if (text.endsWith('）')) return { text: `## ${text}` };
-  if (text.length < 8 && /皇帝|王/.test(text)) return { text: `# ${text}` };
-  return { text: text, audio: `${idx}.mp3` };
+  return { text: text.trim(), audio: `${idx}.mp3` };
 }
 
 async function processFile(inFile, outFile) {

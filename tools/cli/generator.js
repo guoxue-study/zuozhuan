@@ -37,7 +37,7 @@ function normalize(content, audio_path) {
     audio = `![](${filename})\n\n`;
   }
 
-  const text = content.text.replace(/“/g, '__「').replace(/”/g, '」__ ');
+  const text = content.text.replace(/「/g, ' __「').replace(/」/g, '」__ ');
 
   if (content.text.startsWith('臣光曰')) {
     bg = '![bg left](assets/images/simaguang.jpg)\n\n';
