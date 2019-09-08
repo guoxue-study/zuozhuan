@@ -11,7 +11,7 @@ function gen_html(body) {
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>资治通鉴</title>
+    <title>孟子</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css" />
     <style>
       * {font-size: 20px;}
@@ -43,11 +43,8 @@ function gen_html(body) {
 async function read(filename) {
   const content = JSON.parse(await fs.readFile(filename, 'utf8'));
   const name = path.basename(filename, '.json');
-  const [topic, chapter] = content[0].text
-    .replace('# ', '')
-    .split(' ')
-    .slice(0, 2);
-  return [topic, `* [${chapter}](${name}.html)`];
+  const topic = content[0].text.replace('# ', '');
+  return `* [${topic}](${name}.html)`;
 }
 
 async function processFile(templateFile, outFile, content) {
@@ -85,11 +82,8 @@ async function main() {
     });
 
   const content = await Promise.all(results);
-  const grouped = R.groupWith((a, b) => a[0] === b[0], content)
-    .map(item => `# ${item[0][0]}\n\n${item.map(v => v[1]).join('\n')}`)
-    .join('\n\n---\n\n');
 
-  await processFile(argv.t, argv.o, grouped);
+  await processFile(argv.t, argv.o, content.join('\n'));
 }
 
 main();
